@@ -3,6 +3,7 @@ package fr.ernicani.listeners;
 import fr.ernicani.Splatgames;
 import fr.ernicani.manager.GameManager;
 import fr.ernicani.manager.PlayerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +21,8 @@ public class JoinListener implements Listener {
         event.setJoinMessage("");
         Player player = event.getPlayer();
         gameManager.getPlayerManager().clearPlayer(player);
+        event.setJoinMessage("§a" + player.getName() + "§7 a rejoint la partie");
+        Bukkit.broadcastMessage("état de la partie : "+gameManager.getGameState().toString());
 
     }
 

@@ -15,11 +15,12 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(org.bukkit.event.block.BlockBreakEvent event) {
+        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("splatgames.admin"))  {
+            return;
+        }
         if (!gameManager.getBlockManager().canBreak(event.getBlock())) {
             event.setCancelled(true);
-        }else {
-            //todo: faire un timer qui respawn le dans 10 secondes
-            Bukkit.broadcastMessage("Le bloc a été cassé");
         }
+
     }
 }

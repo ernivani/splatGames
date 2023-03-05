@@ -22,7 +22,7 @@ public class PlayerManager {
 
     private void giveKit(Player player) {
         clearPlayer(player);
-        player.getInventory().addItem(KitOne.getKit());
+        KitOne.getKit(player);
     }
 
     public void clearPlayer(Player player) {
