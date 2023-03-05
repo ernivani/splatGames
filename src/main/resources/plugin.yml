@@ -1,0 +1,13 @@
+name: Splatgames
+version: '${project.version}'
+main: fr.ernicani.Splatgames
+api-version: 1.18
+author: ErNicani
+description: Splatgames plugin
+commands:
+  start:
+    description: Start a game
+    usage: /start
+    permission: splatgames.start
+    permission-message: You don't have permission to start a game
+
