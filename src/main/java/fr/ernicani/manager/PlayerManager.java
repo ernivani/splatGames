@@ -1,10 +1,9 @@
 package fr.ernicani.manager;
 
+import fr.ernicani.utils.KitOne;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerManager {
     private GameManager gameManager;
@@ -21,7 +20,7 @@ public class PlayerManager {
 
     private void giveKit(Player player) {
         clearPlayer(player);
-        player.getInventory().addItem(new ItemStack(Material.STICK, 1));
+        KitOne.getKit(player);
     }
 
     public void clearPlayer(Player player) {
@@ -32,9 +31,9 @@ public class PlayerManager {
         player.setSaturation(999999);
         player.setExp(0);
         player.setLevel(0);
-
-
     }
+
+
 
 
 }

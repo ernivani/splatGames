@@ -10,4 +10,9 @@ commands:
     usage: /start
     permission: splatgames.start
     permission-message: You don't have permission to start a game
+  setlobby:
+    description: Set the lobby
+    usage: /setlobby
+    permission: splatgames.setlobby
+    permission-message: You don't have permission to set the lobby
 
