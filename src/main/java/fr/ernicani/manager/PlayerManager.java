@@ -32,9 +32,9 @@ public class PlayerManager {
         player.setSaturation(999999);
         player.setExp(0);
         player.setLevel(0);
-
-
     }
+
+
 
 
 }
