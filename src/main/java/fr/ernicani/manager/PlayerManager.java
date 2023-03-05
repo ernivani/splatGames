@@ -1,5 +1,6 @@
 package fr.ernicani.manager;
 
+import fr.ernicani.utils.KitOne;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -21,7 +22,7 @@ public class PlayerManager {
 
     private void giveKit(Player player) {
         clearPlayer(player);
-        player.getInventory().addItem(new ItemStack(Material.STICK, 1));
+        player.getInventory().addItem(KitOne.getKit());
     }
 
     public void clearPlayer(Player player) {

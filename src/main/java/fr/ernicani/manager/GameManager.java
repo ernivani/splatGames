@@ -21,6 +21,7 @@ public class GameManager {
     }
 
     public void setGameState(GameState gameState) {
+        Bukkit.broadcastMessage("The game is in " + gameState.name() + "!");
         if (this.gameState == GameState.ACTIVE && gameState == GameState.STARTING) return;
         if (this.gameState == gameState) return;
         this.gameState = gameState;
@@ -28,6 +29,7 @@ public class GameManager {
             case LOBBY:
                 //todo: start the lobby
                 Bukkit.broadcastMessage("The game is in lobby!");
+                this.gameStartCountdownTask = new GameStartCountdownTask(this,10);
                 break;
             case VOTING:
                 //todo: start the voting
@@ -35,14 +37,12 @@ public class GameManager {
             case STARTING:
                 //todo: start the game
                 Bukkit.broadcastMessage("The game is starting!");
-                this.gameStartCountdownTask = new GameStartCountdownTask(this);
+                this.gameStartCountdownTask = new GameStartCountdownTask(this,10);
                 this.gameStartCountdownTask.runTaskTimer(plugin, 0, 20);
                 break;
             case ACTIVE:
                 //todo: while the game is running
-                if (this.gameStartCountdownTask != null) {
-                    this.gameStartCountdownTask.cancel();
-                }
+                if (this.gameStartCountdownTask != null) {this.gameStartCountdownTask.cancel();}
                 getPlayerManager().giveKits();
                 Bukkit.broadcastMessage("The game is running!");
                 break;

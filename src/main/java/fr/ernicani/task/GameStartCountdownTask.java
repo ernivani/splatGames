@@ -8,11 +8,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class GameStartCountdownTask extends BukkitRunnable {
 
     private GameManager gameManager;
-    public GameStartCountdownTask(GameManager gameManager) {
+    private int timeLeft;
+
+    public GameStartCountdownTask(GameManager gameManager, int timeLeft) {
         this.gameManager = gameManager;
+        this.timeLeft = timeLeft;
     }
 
-    private int timeLeft = 31;
 
     @Override
     public void run() {
