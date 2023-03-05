@@ -1,6 +1,7 @@
 package fr.ernicani.listeners;
 
 import fr.ernicani.manager.GameManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -23,10 +24,11 @@ public class ProjectileHit implements Listener {
     public void onProjectileHit(ProjectileHitEvent event) {
         if (event.getEntity() instanceof Snowball) {
             Snowball snowball = (Snowball) event.getEntity();
+            Bukkit.broadcastMessage(snowball.getShooter().toString());
             Block hitBlock = event.getHitBlock();
-            if (hitBlock != null && hitBlock.getType() != Material.RED_WOOL) {
+            if (hitBlock != null && hitBlock.getType() != Material.BLUE_WOOL && hitBlock.getType()!= Material.BARRIER ) {
                 // Colorier le bloc touché
-                hitBlock.setType(Material.RED_WOOL);
+                hitBlock.setType(Material.BLUE_WOOL);
 
                 // Colorier les autres blocs de surface touchant le bloc touché
                 World world = snowball.getWorld();
@@ -36,7 +38,7 @@ public class ProjectileHit implements Listener {
                         for (int z = -radius; z <= radius; z++) {
                             Block block = world.getBlockAt(hitBlock.getX() + x, hitBlock.getY() + y, hitBlock.getZ() + z);
                             if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y && block.getFace(hitBlock) != null) {
-                                block.setType(Material.RED_WOOL);
+                                block.setType(Material.BLUE_WOOL);
                             }
                         }
                     }

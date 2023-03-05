@@ -1,11 +1,13 @@
 package fr.ernicani;
 
+import fr.ernicani.commands.LobbySet;
 import fr.ernicani.commands.StartCommand;
 import fr.ernicani.listeners.BlockBreakListener;
 import fr.ernicani.listeners.JoinListener;
 import fr.ernicani.listeners.onPlayerInteract;
 import fr.ernicani.listeners.ProjectileHit;
 import fr.ernicani.manager.GameManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Splatgames extends JavaPlugin {
@@ -27,6 +29,10 @@ public final class Splatgames extends JavaPlugin {
 
 
         getCommand("start").setExecutor(new StartCommand(gameManager));
+        getCommand("setlobby").setExecutor(new LobbySet(gameManager));
+
+        //todo: load the config file
+
 
         getLogger().info("Splatgames is enabled");
     }

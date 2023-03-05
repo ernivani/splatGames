@@ -21,10 +21,13 @@ public class onPlayerInteract implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        if (event.getItem() == null) {
+            return;
+        }
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
-        assert item != null;
         if (item.getType().name().contains("STICK")) {
+
             Snowball snowball = player.launchProjectile(Snowball.class);
             snowball.setVelocity(player.getLocation().getDirection().multiply(2));
             snowball.setShooter(player);
