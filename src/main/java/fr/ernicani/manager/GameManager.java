@@ -10,8 +10,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class GameManager {
@@ -185,5 +187,8 @@ public class GameManager {
     }
 
 
+    public Plugin getPlugin() {
+        return plugin;
+    }
 
 }

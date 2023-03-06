@@ -7,8 +7,8 @@ import org.bukkit.util.Vector;
 public class LaunchSnowball {
 
     public void Pompe(Player player) {
-        int numSnowballs = 100;
-        double spread = 0.7;
+        int numSnowballs = 3;
+        double spread = 0.3;
         for (int i = 0; i < numSnowballs; i++) {
 
             Snowball snowball = player.launchProjectile(Snowball.class);

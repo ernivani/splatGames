@@ -15,5 +15,6 @@ public class ListenersHandle {
         pm.registerEvents(new onPlayerInteract(gameManager), plugin);
         pm.registerEvents(new ProjectileHit(gameManager), plugin);
         pm.registerEvents(new onPlayerChat(gameManager), plugin);
+        pm.registerEvents(new PlayerDeath(gameManager), plugin);
     }
 }
