@@ -3,6 +3,7 @@ package fr.ernicani.manager;
 import fr.ernicani.Splatgames;
 import fr.ernicani.task.GameStartCountdownTask;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,6 +20,7 @@ public class GameManager {
     public GameState gameState = GameState.LOBBY;
 
     public TeamState teamState = TeamState.NONE;
+
 
     private BlockManager blockManager;
     private PlayerManager playerManager;
@@ -37,6 +39,8 @@ public class GameManager {
         this.blockManager = new BlockManager(this);
         this.playerManager = new PlayerManager(this);
     }
+
+
 
     public void setGameState(GameState gameState) {
         if (this.gameState == GameState.ACTIVE && gameState == GameState.STARTING) return;
@@ -114,34 +118,43 @@ public class GameManager {
     }
 
     public void setTeamState(TeamState teamState, Player player) {
-        if (this.teamState == TeamState.NONE && teamState == TeamState.RED) {
-            this.teamState = teamState;
-            redTeam.add(player.getName());
-            player.sendMessage("You are now in the red team!");
-        } else if (this.teamState == TeamState.NONE && teamState == TeamState.BLUE) {
-            this.teamState = teamState;
-            blueTeam.add(player.getName());
-            player.sendMessage("You are now in the blue team!");
-        } else if (this.teamState == TeamState.RED && teamState == TeamState.BLUE) {
-            this.teamState = teamState;
-            redTeam.remove(player.getName());
-            blueTeam.add(player.getName());
-            player.sendMessage("You are now in the blue team!");
-        } else if (this.teamState == TeamState.BLUE && teamState == TeamState.RED) {
-            this.teamState = teamState;
-            blueTeam.remove(player.getName());
-            redTeam.add(player.getName());
-            player.sendMessage("You are now in the red team!");
-        } else if (this.teamState == TeamState.RED && teamState == TeamState.NONE) {
-            this.teamState = teamState;
-            redTeam.remove(player.getName());
-            player.sendMessage("You are now in no team!");
-        } else if (this.teamState == TeamState.BLUE && teamState == TeamState.NONE) {
-            this.teamState = teamState;
-            blueTeam.remove(player.getName());
-            player.sendMessage("You are now in no team!");
+        String displayName = player.getName();
+        String prefix;
+        switch (teamState) {
+            case NONE:
+                if (redTeam.contains(player.getName())) {
+                    redTeam.remove(player.getName());
+                } else {
+                    blueTeam.remove(player.getName());
+                }
+                player.sendMessage("You are now in no team!");
+                prefix = "";
+                break;
+            case RED:
+                redTeam.remove(player.getName());
+                blueTeam.remove(player.getName());
+                redTeam.add(player.getName());
+                displayName = ChatColor.RED + player.getName();
+                player.sendMessage("You are now in the red team!");
+                prefix = ChatColor.RED + "[red] ";
+                break;
+            case BLUE:
+                redTeam.remove(player.getName());
+                blueTeam.remove(player.getName());
+                blueTeam.add(player.getName());
+                displayName = ChatColor.BLUE + player.getName();
+                player.sendMessage("You are now in the blue team!");
+                prefix = ChatColor.BLUE + "[blue] ";
+                break;
+            default:
+                prefix = "";
+                break;
         }
+        player.setPlayerListName(prefix + displayName);
+        this.teamState = teamState;
     }
+
+
 
     public TeamState getTeamState(Player player) {
         if (redTeam.contains(player.getName())) {
@@ -170,4 +183,7 @@ public class GameManager {
             redTeam.remove(player.getName());
         } else blueTeam.remove(player.getName());
     }
+
+
+
 }
