@@ -4,10 +4,10 @@ import fr.ernicani.utils.KitOne;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerManager {
     private GameManager gameManager;
+
 
     public PlayerManager(GameManager gameManager) {
         this.gameManager = gameManager;
