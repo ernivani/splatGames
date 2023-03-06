@@ -2,6 +2,7 @@ package fr.ernicani.task;
 
 import fr.ernicani.manager.GameManager;
 import fr.ernicani.manager.GameState;
+import fr.ernicani.manager.TeamState;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -20,7 +21,13 @@ public class GameStartCountdownTask extends BukkitRunnable {
     public void run() {
         timeLeft--;
         if (timeLeft <= 0) {
-            Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendTitle("§a§lGOOO!", "", 0, 20, 0));
+            Bukkit.getServer().getOnlinePlayers().forEach(
+                    player -> {
+                        player.sendTitle("§a§lGOOO!", "", 0, 20, 0);
+                        gameManager.setTeamState(TeamState.RED,player);
+                    }
+
+            );
             gameManager.setGameState(GameState.ACTIVE);
             cancel();
             return;

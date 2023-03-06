@@ -1,6 +1,7 @@
 package fr.ernicani.listeners;
 
 import fr.ernicani.manager.GameManager;
+import fr.ernicani.manager.TeamState;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -24,36 +25,43 @@ public class ProjectileHit implements Listener {
     public void onProjectileHit(ProjectileHitEvent event) {
         if (event.getEntity() instanceof Snowball) {
             Snowball snowball = (Snowball) event.getEntity();
-            Bukkit.broadcastMessage(snowball.getShooter().toString());
-            Block hitBlock = event.getHitBlock();
-            if (hitBlock != null && hitBlock.getType() != Material.BLUE_WOOL && hitBlock.getType()!= Material.BARRIER ) {
-                // Colorier le bloc touché
-                hitBlock.setType(Material.BLUE_WOOL);
+            if (snowball.getShooter() instanceof Player) {
+                Player player = (Player) snowball.getShooter();
+                if (gameManager.getTeamState(player) == null) {
+                    return;
+                }
+//                if (gameManager.getTeamState(player) == gameManager.getTeamState((Player) event.getHitEntity())) {
+//                    return;
+//                }
+                Material teamColor = Material.BLUE_CONCRETE;
+                if (gameManager.getTeamState(player) == TeamState.RED) {
+                    teamColor = Material.RED_CONCRETE;
+                }
+                player.sendMessage("vous etes dans l'equipe " + teamColor.name());
+                Block hitBlock = event.getHitBlock();
+                if (hitBlock != null && hitBlock.getType()!= Material.BARRIER ) {
+                    // Colorier le bloc touché
+                    hitBlock.setType(teamColor);
 
-                // Colorier les autres blocs de surface touchant le bloc touché
-                World world = snowball.getWorld();
-                int radius = 1;
-                for (int x = -radius; x <= radius; x++) {
-                    for (int y = -radius; y <= radius; y++) {
-                        for (int z = -radius; z <= radius; z++) {
-                            Block block = world.getBlockAt(hitBlock.getX() + x, hitBlock.getY() + y, hitBlock.getZ() + z);
-                            if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y && block.getFace(hitBlock) != null) {
-                                block.setType(Material.BLUE_WOOL);
+                    // Colorier les autres blocs de surface touchant le bloc touché
+                    World world = snowball.getWorld();
+                    int radius = 1;
+                    for (int x = -radius; x <= radius; x++) {
+                        for (int y = -radius; y <= radius; y++) {
+                            for (int z = -radius; z <= radius; z++) {
+                                Block block = world.getBlockAt(hitBlock.getX() + x, hitBlock.getY() + y, hitBlock.getZ() + z);
+                                if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y && block.getFace(hitBlock) != null) {
+                                    block.setType(teamColor);
+                                }
                             }
                         }
                     }
+                } else if (event.getHitEntity() instanceof Player) {
+                    Player player1 = (Player) event.getHitEntity();
+                    player1.damage(7.0, (Entity) snowball.getShooter());
                 }
-            }
-            else if (event.getHitEntity() instanceof Player) {
-                Player player = (Player) event.getHitEntity();
-                player.damage(7.0, (Entity) snowball.getShooter());
             }
         }
     }
-
-
-
-
-
 
 }

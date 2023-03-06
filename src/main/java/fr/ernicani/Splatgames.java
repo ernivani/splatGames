@@ -31,6 +31,7 @@ public final class Splatgames extends JavaPlugin {
         getCommand("start").setExecutor(new StartCommand(gameManager));
         getCommand("setlobby").setExecutor(new LobbySet(gameManager));
 
+
         //todo: load the config file
 
 

@@ -7,6 +7,9 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameManager {
 
     private final Splatgames plugin;
@@ -19,6 +22,10 @@ public class GameManager {
 
     private GameStartCountdownTask gameStartCountdownTask;
     private FileConfiguration config;
+
+    private List<String> redTeam = new ArrayList<>();
+    private List<String> blueTeam = new ArrayList<>();
+
 
     public GameManager(Splatgames plugin) {
         this.plugin = plugin;
@@ -45,7 +52,7 @@ public class GameManager {
                 //todo: start the game
                 Bukkit.broadcastMessage("The game is starting!");
                 this.gameStartCountdownTask = new GameStartCountdownTask(this,31);
-                this.gameStartCountdownTask.runTaskTimer(plugin, 0, 20);
+                this.gameStartCountdownTask.runTaskTimer(plugin, 0, 1);
                 break;
             case ACTIVE:
                 //todo: while the game is running
@@ -104,7 +111,43 @@ public class GameManager {
     }
 
     public void setTeamState(TeamState teamState, Player player) {
-        // todo: set the team state of the player
+        if (this.teamState == TeamState.NONE && teamState == TeamState.RED) {
+            this.teamState = teamState;
+            redTeam.add(player.getName());
+            player.sendMessage("You are now in the red team!");
+        } else if (this.teamState == TeamState.NONE && teamState == TeamState.BLUE) {
+            this.teamState = teamState;
+            blueTeam.add(player.getName());
+            player.sendMessage("You are now in the blue team!");
+        } else if (this.teamState == TeamState.RED && teamState == TeamState.BLUE) {
+            this.teamState = teamState;
+            redTeam.remove(player.getName());
+            blueTeam.add(player.getName());
+            player.sendMessage("You are now in the blue team!");
+        } else if (this.teamState == TeamState.BLUE && teamState == TeamState.RED) {
+            this.teamState = teamState;
+            blueTeam.remove(player.getName());
+            redTeam.add(player.getName());
+            player.sendMessage("You are now in the red team!");
+        } else if (this.teamState == TeamState.RED && teamState == TeamState.NONE) {
+            this.teamState = teamState;
+            redTeam.remove(player.getName());
+            player.sendMessage("You are now in no team!");
+        } else if (this.teamState == TeamState.BLUE && teamState == TeamState.NONE) {
+            this.teamState = teamState;
+            blueTeam.remove(player.getName());
+            player.sendMessage("You are now in no team!");
+        }
+    }
+
+    public TeamState getTeamState(Player player) {
+        if (redTeam.contains(player.getName())) {
+            return TeamState.RED;
+        } else if (blueTeam.contains(player.getName())) {
+            return TeamState.BLUE;
+        } else {
+            return TeamState.NONE;
+        }
     }
 
 
