@@ -3,6 +3,7 @@ package fr.ernicani.listeners;
 import fr.ernicani.manager.GameManager;
 import fr.ernicani.manager.GameState;
 import fr.ernicani.manager.TeamState;
+import fr.ernicani.utils.LaunchSnowball;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -18,9 +19,11 @@ import org.bukkit.inventory.ItemStack;
 public class onPlayerInteract implements Listener {
 
     private GameManager gameManager;
+    private LaunchSnowball launchSnowball;
 
     public onPlayerInteract(GameManager gameManager) {
         this.gameManager = gameManager;
+        this.launchSnowball = new LaunchSnowball();
     }
 
     @EventHandler
@@ -45,11 +48,7 @@ public class onPlayerInteract implements Listener {
             return;
         }
         if (item.getType().name().contains("STICK")) {
-            Snowball snowball = player.launchProjectile(Snowball.class);
-            snowball.setVelocity(player.getLocation().getDirection().multiply(2));
-            snowball.setShooter(player);
-            snowball.setCustomName("snowball");
-
+            launchSnowball.Pompe(player);
         }
     }
 
