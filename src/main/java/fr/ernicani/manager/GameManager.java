@@ -4,8 +4,11 @@ import fr.ernicani.Splatgames;
 import fr.ernicani.task.GameStartCountdownTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class GameManager {
                 //todo: start the game
                 Bukkit.broadcastMessage("The game is starting!");
                 this.gameStartCountdownTask = new GameStartCountdownTask(this,31);
-                this.gameStartCountdownTask.runTaskTimer(plugin, 0, 1);
+                this.gameStartCountdownTask.runTaskTimer(plugin,0,20);
                 break;
             case ACTIVE:
                 //todo: while the game is running
@@ -150,5 +153,21 @@ public class GameManager {
         }
     }
 
+    public void openTeamSelector(Player player) {
+        Inventory inventory = Bukkit.createInventory(null, 27, "Team selector");
+        ItemStack redTeamItem = new ItemStack(Material.RED_WOOL);
+        ItemStack blueTeamItem = new ItemStack(Material.BLUE_WOOL);
+        ItemStack noneTeamItem = new ItemStack(Material.GRAY_WOOL);
+        inventory.setItem(10, redTeamItem);
+        inventory.setItem(11, noneTeamItem);
+        inventory.setItem(12, blueTeamItem);
+        player.openInventory(inventory);
+    }
 
+
+    public void removePlayer(Player player) {
+        if (redTeam.contains(player.getName())) {
+            redTeam.remove(player.getName());
+        } else blueTeam.remove(player.getName());
+    }
 }

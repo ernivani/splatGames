@@ -4,6 +4,7 @@ import fr.ernicani.utils.KitOne;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerManager {
     private GameManager gameManager;
@@ -32,8 +33,4 @@ public class PlayerManager {
         player.setExp(0);
         player.setLevel(0);
     }
-
-
-
-
 }

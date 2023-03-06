@@ -40,10 +40,12 @@ public class JoinListener implements Listener {
         }
 
 
-        gameManager.setTeamState(TeamState.BLUE,player);
+        gameManager.setTeamState(TeamState.NONE,player);
+
         player.sendMessage(gameManager.getTeamState(player).toString());
 
     }
+
 
 
 }

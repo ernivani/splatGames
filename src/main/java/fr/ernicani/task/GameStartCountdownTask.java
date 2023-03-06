@@ -24,7 +24,6 @@ public class GameStartCountdownTask extends BukkitRunnable {
             Bukkit.getServer().getOnlinePlayers().forEach(
                     player -> {
                         player.sendTitle("§a§lGOOO!", "", 0, 20, 0);
-                        gameManager.setTeamState(TeamState.RED,player);
                     }
 
             );
