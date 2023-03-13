@@ -34,7 +34,17 @@ public class ProjectileHit implements Listener {
                 if (teamState == null) {
                     return;
                 }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+                if (event.getHitEntity() instanceof Player) {
+                    Player hitPlayer = (Player) event.getHitEntity();
+                    if (gameManager.getTeamState(player) == gameManager.getTeamState(hitPlayer)) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+>>>>>>> 42628a502e206566fece4bae96ad138796417841
 //                if (gameManager.getTeamState(player) == gameManager.getTeamState((Player) event.getHitEntity())) {
 //                    return;
 //                }
@@ -56,7 +66,6 @@ public class ProjectileHit implements Listener {
                 } else {
                     teamColor = Material.BLUE_CONCRETE;
                 }
-                player.sendMessage("vous etes dans l'equipe " + teamColor.name());
                 Block hitBlock = event.getHitBlock();
                 if (hitBlock != null && hitBlock.getType()!= Material.BARRIER ) {
                     // Colorier le bloc touché
@@ -65,12 +74,12 @@ public class ProjectileHit implements Listener {
                     // Colorier les autres blocs de surface touchant le bloc touché
 <<<<<<< Updated upstream
                     World world = snowball.getWorld();
-                    int radius = 1;
+                    int radius = 2;
                     for (int x = -radius; x <= radius; x++) {
                         for (int y = -radius; y <= radius; y++) {
                             for (int z = -radius; z <= radius; z++) {
                                 Block block = world.getBlockAt(hitBlock.getX() + x, hitBlock.getY() + y, hitBlock.getZ() + z);
-                                if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y && block.getFace(hitBlock) != null) {
+                                if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y) {
                                     block.setType(teamColor);
 =======
                     int radius = 2;

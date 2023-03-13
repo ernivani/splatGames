@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 public class PlayerManager {
     private GameManager gameManager;
 
+
     public PlayerManager(GameManager gameManager) {
         this.gameManager = gameManager;
     }
@@ -32,8 +33,4 @@ public class PlayerManager {
         player.setExp(0);
         player.setLevel(0);
     }
-
-
-
-
 }
