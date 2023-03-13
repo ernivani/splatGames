@@ -36,10 +36,39 @@ public class onPlayerInteract implements Listener {
 
         if (item.getType().name().contains("STICK")) {
 
+<<<<<<< Updated upstream
             Snowball snowball = player.launchProjectile(Snowball.class);
             snowball.setVelocity(player.getLocation().getDirection().multiply(2));
             snowball.setShooter(player);
             snowball.setCustomName("snowball");
+=======
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event)  {
+        Player player = (Player) event.getWhoClicked();
+        Inventory inventory = event.getInventory();
+        if (inventory.getType() == InventoryType.CHEST && inventory.getType().name().equals("CHEST")) {
+            InventoryView inventoryView = event.getView();
+            if (inventoryView.getTitle().equals("Team selector")) {
+                event.setCancelled(true);
+                switch (event.getSlot()) {
+                    case 10:
+                        gameManager.setTeamState(TeamState.RED,player);
+                        inventoryView.close();
+                        break;
+                    case 11:
+                        gameManager.setTeamState(TeamState.NONE,player);
+                        inventoryView.close();
+                        break;
+                    case 12:
+                        gameManager.setTeamState(TeamState.BLUE,player);
+                        inventoryView.close();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+>>>>>>> Stashed changes
 
         }
     }

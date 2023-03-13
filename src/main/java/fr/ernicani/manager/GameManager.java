@@ -6,6 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+<<<<<<< Updated upstream
+=======
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+>>>>>>> Stashed changes
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,5 +157,39 @@ public class GameManager {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    public void openTeamSelector(Player player) {
+        Inventory inventory = Bukkit.createInventory(null, 27, "Team selector");
+        ItemStack redTeamItem = new ItemStack(Material.RED_BANNER);
+        ItemMeta redTeamItemMeta = redTeamItem.getItemMeta();
+        redTeamItemMeta.setDisplayName(ChatColor.RED + "Red team");
+        redTeamItem.setItemMeta(redTeamItemMeta);
+        ItemStack blueTeamItem = new ItemStack(Material.BLUE_BANNER);
+        ItemMeta blueTeamItemMeta = blueTeamItem.getItemMeta();
+        blueTeamItemMeta.setDisplayName(ChatColor.BLUE + "Blue team");
+        blueTeamItem.setItemMeta(blueTeamItemMeta);
+        ItemStack noneTeamItem = new ItemStack(Material.WHITE_BANNER);
+        ItemMeta noneTeamItemMeta = noneTeamItem.getItemMeta();
+        noneTeamItemMeta.setDisplayName(ChatColor.WHITE + "No team");
+        noneTeamItem.setItemMeta(noneTeamItemMeta);
+        inventory.setItem(10, redTeamItem);
+        inventory.setItem(11, noneTeamItem);
+        inventory.setItem(12, blueTeamItem);
+        player.openInventory(inventory);
+    }
+
+
+    public void removePlayer(Player player) {
+        if (redTeam.contains(player.getName())) {
+            redTeam.remove(player.getName());
+        } else blueTeam.remove(player.getName());
+    }
+
+
+    public Plugin getPlugin() {
+        return plugin;
+    }
+>>>>>>> Stashed changes
 
 }
