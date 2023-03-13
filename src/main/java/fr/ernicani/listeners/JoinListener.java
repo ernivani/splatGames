@@ -30,6 +30,8 @@ public class JoinListener implements Listener {
         event.setJoinMessage("§a" + player.getName() + "§7 a rejoint la partie");
         Bukkit.broadcastMessage("état de la partie : "+gameManager.getGameState().toString() + " " + GameState.LOBBY.toString());
 
+
+
         player.sendMessage(gameManager.getGameState() != GameState.LOBBY ? "§cLa partie est en cours" : "§aLa partie n'est pas en cours");
         if (gameManager.getGameState() == GameState.LOBBY) {
             player.setGameMode(GameMode.SURVIVAL);
@@ -40,10 +42,12 @@ public class JoinListener implements Listener {
         }
 
 
-        gameManager.setTeamState(TeamState.BLUE,player);
+        gameManager.setTeamState(TeamState.NONE,player);
+
         player.sendMessage(gameManager.getTeamState(player).toString());
 
     }
+
 
 
 }

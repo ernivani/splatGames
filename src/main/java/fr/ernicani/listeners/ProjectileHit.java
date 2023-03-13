@@ -30,6 +30,13 @@ public class ProjectileHit implements Listener {
                 if (gameManager.getTeamState(player) == null) {
                     return;
                 }
+                if (event.getHitEntity() instanceof Player) {
+                    Player hitPlayer = (Player) event.getHitEntity();
+                    if (gameManager.getTeamState(player) == gameManager.getTeamState(hitPlayer)) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
 //                if (gameManager.getTeamState(player) == gameManager.getTeamState((Player) event.getHitEntity())) {
 //                    return;
 //                }
@@ -37,7 +44,6 @@ public class ProjectileHit implements Listener {
                 if (gameManager.getTeamState(player) == TeamState.RED) {
                     teamColor = Material.RED_CONCRETE;
                 }
-                player.sendMessage("vous etes dans l'equipe " + teamColor.name());
                 Block hitBlock = event.getHitBlock();
                 if (hitBlock != null && hitBlock.getType()!= Material.BARRIER ) {
                     // Colorier le bloc touché
@@ -45,12 +51,12 @@ public class ProjectileHit implements Listener {
 
                     // Colorier les autres blocs de surface touchant le bloc touché
                     World world = snowball.getWorld();
-                    int radius = 1;
+                    int radius = 2;
                     for (int x = -radius; x <= radius; x++) {
                         for (int y = -radius; y <= radius; y++) {
                             for (int z = -radius; z <= radius; z++) {
                                 Block block = world.getBlockAt(hitBlock.getX() + x, hitBlock.getY() + y, hitBlock.getZ() + z);
-                                if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y && block.getFace(hitBlock) != null) {
+                                if (block.getType().isSolid() && block.getY() == hitBlock.getY() + y) {
                                     block.setType(teamColor);
                                 }
                             }

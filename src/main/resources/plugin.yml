@@ -15,4 +15,9 @@ commands:
     usage: /setlobby
     permission: splatgames.setlobby
     permission-message: You don't have permission to set the lobby
+  menu:
+    description: Open the menu
+    usage: /menu
+    permission: splatgames.menu
+    permission-message: You don't have permission to open the menu
 

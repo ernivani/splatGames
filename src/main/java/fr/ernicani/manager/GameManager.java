@@ -3,11 +3,17 @@ package fr.ernicani.manager;
 import fr.ernicani.Splatgames;
 import fr.ernicani.task.GameStartCountdownTask;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class GameManager {
@@ -16,6 +22,7 @@ public class GameManager {
     public GameState gameState = GameState.LOBBY;
 
     public TeamState teamState = TeamState.NONE;
+
 
     private BlockManager blockManager;
     private PlayerManager playerManager;
@@ -35,6 +42,8 @@ public class GameManager {
         this.playerManager = new PlayerManager(this);
     }
 
+
+
     public void setGameState(GameState gameState) {
         if (this.gameState == GameState.ACTIVE && gameState == GameState.STARTING) return;
         if (this.gameState == gameState) return;
@@ -52,7 +61,7 @@ public class GameManager {
                 //todo: start the game
                 Bukkit.broadcastMessage("The game is starting!");
                 this.gameStartCountdownTask = new GameStartCountdownTask(this,31);
-                this.gameStartCountdownTask.runTaskTimer(plugin, 0, 1);
+                this.gameStartCountdownTask.runTaskTimer(plugin,0,20);
                 break;
             case ACTIVE:
                 //todo: while the game is running
@@ -111,34 +120,43 @@ public class GameManager {
     }
 
     public void setTeamState(TeamState teamState, Player player) {
-        if (this.teamState == TeamState.NONE && teamState == TeamState.RED) {
-            this.teamState = teamState;
-            redTeam.add(player.getName());
-            player.sendMessage("You are now in the red team!");
-        } else if (this.teamState == TeamState.NONE && teamState == TeamState.BLUE) {
-            this.teamState = teamState;
-            blueTeam.add(player.getName());
-            player.sendMessage("You are now in the blue team!");
-        } else if (this.teamState == TeamState.RED && teamState == TeamState.BLUE) {
-            this.teamState = teamState;
-            redTeam.remove(player.getName());
-            blueTeam.add(player.getName());
-            player.sendMessage("You are now in the blue team!");
-        } else if (this.teamState == TeamState.BLUE && teamState == TeamState.RED) {
-            this.teamState = teamState;
-            blueTeam.remove(player.getName());
-            redTeam.add(player.getName());
-            player.sendMessage("You are now in the red team!");
-        } else if (this.teamState == TeamState.RED && teamState == TeamState.NONE) {
-            this.teamState = teamState;
-            redTeam.remove(player.getName());
-            player.sendMessage("You are now in no team!");
-        } else if (this.teamState == TeamState.BLUE && teamState == TeamState.NONE) {
-            this.teamState = teamState;
-            blueTeam.remove(player.getName());
-            player.sendMessage("You are now in no team!");
+        String displayName = player.getName();
+        String prefix;
+        switch (teamState) {
+            case NONE:
+                if (redTeam.contains(player.getName())) {
+                    redTeam.remove(player.getName());
+                } else {
+                    blueTeam.remove(player.getName());
+                }
+                player.sendMessage("You are now in no team!");
+                prefix = "";
+                break;
+            case RED:
+                redTeam.remove(player.getName());
+                blueTeam.remove(player.getName());
+                redTeam.add(player.getName());
+                displayName = ChatColor.RED + player.getName();
+                player.sendMessage("You are now in the red team!");
+                prefix = ChatColor.RED + "[red] ";
+                break;
+            case BLUE:
+                redTeam.remove(player.getName());
+                blueTeam.remove(player.getName());
+                blueTeam.add(player.getName());
+                displayName = ChatColor.BLUE + player.getName();
+                player.sendMessage("You are now in the blue team!");
+                prefix = ChatColor.BLUE + "[blue] ";
+                break;
+            default:
+                prefix = "";
+                break;
         }
+        player.setPlayerListName(prefix + displayName);
+        this.teamState = teamState;
     }
+
+
 
     public TeamState getTeamState(Player player) {
         if (redTeam.contains(player.getName())) {
@@ -150,5 +168,27 @@ public class GameManager {
         }
     }
 
+    public void openTeamSelector(Player player) {
+        Inventory inventory = Bukkit.createInventory(null, 27, "Team selector");
+        ItemStack redTeamItem = new ItemStack(Material.RED_WOOL);
+        ItemStack blueTeamItem = new ItemStack(Material.BLUE_WOOL);
+        ItemStack noneTeamItem = new ItemStack(Material.GRAY_WOOL);
+        inventory.setItem(10, redTeamItem);
+        inventory.setItem(11, noneTeamItem);
+        inventory.setItem(12, blueTeamItem);
+        player.openInventory(inventory);
+    }
+
+
+    public void removePlayer(Player player) {
+        if (redTeam.contains(player.getName())) {
+            redTeam.remove(player.getName());
+        } else blueTeam.remove(player.getName());
+    }
+
+
+    public Plugin getPlugin() {
+        return plugin;
+    }
 
 }
